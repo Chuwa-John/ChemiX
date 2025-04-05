@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form with Validation</title>
+    <style>
+        /* CSS styles (same as previous example) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            width: 300px;
+            padding: 20px;
+            background-color: #3498db;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            color: #fff;
+            text-align: center;
+        }
+        .login-box h2 {
+            margin-top: 0;
+        }
+        .login-box input[type="text"],
+        .login-box input[type="email"],
+        .login-box input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .login-box input[type="submit"],
+        .login-box input[type="reset"] {
+            width: 100px;
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            background-color: #2980b9;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-box input[type="submit"]:hover,
+        .login-box input[type="reset"]:hover {
+            background-color: #1e90ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h2>LOGIN</h2>
+    <form id="loginForm" onsubmit="return validateForm()">
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="username" required><br>
+
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="retype-password">Retype Password</label><br>
+        <input type="password" id="retype-password" name="retype-password" required><br>
+
+        <input type="submit" value="Login">
+        <input type="reset" value="Reset">
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        var username = document.getElementById('username').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value.trim();
+        var retypePassword = document.getElementById('retype-password').value.trim();
+
+        if (username === '' || email === '' || password === '' || retypePassword === '') {
+            alert('Please fill in all fields.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>

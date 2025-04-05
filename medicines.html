@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products</title>
+    <link rel="stylesheet" href="medicine.css">
+</head>
+<body>
+   
+    <div class="container">
+        <header>
+            <div class="title">
+                <a href="hompage.html">Homepage</a>
+                <a href="signup.html">Logout</a>
+                <a href="contancts.html">Contacts</a>
+                </div>
+            <div class="icon-cart">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+                  </svg>
+<span>0</span>                  
+            </div>
+        </header>
+       <div id="contentTab">
+        Content In Template
+        </div>
+    </div>
+    <div class="cartTab">
+        <h1>Shopping cart</h1>
+        <div class="listCart">
+            Show item here
+        </div>
+        <h4 id="total">Total:</h4>
+        <div class="btn">
+            <button class="close">CLOSE</button>
+          <a href="checkout.html"  ><button class="checkOut">
+                checkout
+            </button>
+          </a>
+        </div>
+    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const calculateTotalPrice = () => {
+            let totalPrice = 0;
+            const cartItems = JSON.parse(localStorage.getItem('cart'));
+            if (cartItems) {
+                cartItems.forEach(item => {
+                    totalPrice += item.price * item.quantity;
+                });
+            }
+            return totalPrice;
+        }
+
+        const updateTotalPrice = () => {
+            const total = calculateTotalPrice();
+            const totalElement = document.getElementById('total');
+            totalElement.innerHTML = `Total: $${total}`;
+        }
+
+        updateTotalPrice();
+    });
+</script>
+</body>
+</html>

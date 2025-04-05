@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" type="text/css" href="page.css">
+</head>
+<body>
+    <div class="login-root">
+        <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+            <div class="loginbackground box-background--white padding-top--64">
+                <div class="loginbackground-gridContainer">
+                    <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
+                        <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+                <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
+                    <h1>Order Summary</h1>
+                </div>
+                <div class="formbg-outer">
+                    <div class="formbg">
+                        <div class="formbg-inner padding-horizontal--48">
+                            <div id="total" class="padding-bottom--15">Total: </div>
+                            <div id="vat" class="padding-bottom--15">VAT: </div>
+                            <div>Order Items:</div>
+                            <div id="orderItems"></div>
+                            <div class="field padding-bottom--24">
+                                <label for="location">Input your current location:</label>
+                                <input type="text" id="location" placeholder="Waiting for location...">
+                                <button class="button" onclick="getLocation()">Get Location</button>
+                            </div>
+                            <div class="mpesa padding-bottom--24">
+                                <button class="button" onclick="submitOrder()">Submit Order</button>
+                                <img src="mpesa.png" alt="M-Pesa Logo">
+                                <p>Lipa na M-Pesa: Pochi la Biashara - 0794422088</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="products.js"></script>
+    <script>
+        function submitOrder() {
+            setTimeout(() => {
+                const mpesaCode = prompt("Please enter the M-Pesa code:");
+                if (mpesaCode !== null && mpesaCode !== "") {
+                    setTimeout(() => {
+                        alert("Order accepted. Kindly wait for its arrival.");
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        function getLocation() {
+            console.log("Get Location button clicked"); // Debugging line
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const locationInput = document.getElementById('location');
+            locationInput.value = `Latitude: ${latitude}, Longitude: ${longitude}`;
+
+            // Open Google Maps with the obtained coordinates
+            const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            window.open(googleMapsUrl);
+        }
+
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+        cart.forEach(item => {
+            let positionProduct = products.findIndex((value) => value.id == item.product_id);
+            let info = products[positionProduct];
+            total += info.price * item.quantity;
+        });
+        let vat = total * 0.14;
+        let totalPrice = total + vat;
+
+        document.getElementById('total').innerText = `Total: $${total.toFixed(2)}`;
+        document.getElementById('vat').innerText = `VAT: $${vat.toFixed(2)}`;
+
+        let orderItems = document.getElementById('orderItems');
+        cart.forEach(item => {
+            let positionProduct = products.findIndex((value) => value.id == item.product_id);
+            let info = products[positionProduct];
+            let itemElement = document.createElement('div');
+            itemElement.innerText = `${info.name} - Quantity: ${item.quantity}`;
+            orderItems.appendChild(itemElement);
+        });
+    </script>
+</body>
+</html>

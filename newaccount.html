@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CHEMI X SIGN-UP</title>
+    <link rel="stylesheet" type="text/css" href="page.css">
+    <script>
+        function redirectToSignUp() {
+            alert("Data stored successfully!");
+            window.location.href = "signup.html";
+        }
+    </script>
+</head>
+<body>
+  <div class="login-root">
+    <div class="box-root flex-flex flex-direction--column" style="min-height: 100vh;flex-grow: 1;">
+      <div class="loginbackground box-background--white padding-top--64">
+        <div class="loginbackground-gridContainer">
+          <div class="box-root flex-flex" style="grid-area: top / start / 8 / end;">
+            <div class="box-root" style="background-image: linear-gradient(white 0%, rgb(247, 250, 252) 33%); flex-grow: 1;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="box-root padding-top--24 flex-flex flex-direction--column" style="flex-grow: 1; z-index: 9;">
+        <div class="box-root padding-top--48 padding-bottom--24 flex-flex flex-justifyContent--center">
+          <h1><a href="#" rel="dofollow">CHEMI X</a></h1>
+        </div>
+        <div class="formbg-outer">
+          <div class="formbg">
+            <div class="formbg-inner padding-horizontal--48">
+              <span class="padding-bottom--15">Sign up for a new account</span>
+              <form id="signup-form" onsubmit="signup(event)" >
+                <div class="field padding-bottom--24">
+                  <label for="fullname">Full Name</label>
+                  <input type="text" name="fullname">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="email">Email</label>
+                  <input type="email" name="email">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="password">Password</label>
+                  <input type="password" name="password">
+                </div>
+                <div class="field padding-bottom--24">
+                  <label for="confirm-password">Confirm Password</label>
+                  <input type="password" name="confirm-password">
+                </div>
+                <div class="field padding-bottom--24">
+                  <button type="button" onclick="redirectToSignUp()">SIGN UP</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="footer-link padding-top--24">
+            <span>Already have an account? <a href="signup.html">Sign in</a></span>
+            <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
+              <span><a href="pagesigniup.html">CHEMI X</a></span>
+              <span><a href="contancts.html">Contact</a></span>
+              <span><a href="https://policies.google.com/privacy?hl=en-US">Privacy & terms</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function signup(event) {
+      event.preventDefault();
+      const formData = new FormData(document.getElementById("signup-form"));
+      const response = await fetch("http://localhost:8080/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          full_name: formData.get("fullname"),
+          email: formData.get("email"),
+          password: formData.get("password")
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      if (response.ok) {
+        alert("Signup successful!");
+      } else {
+        alert("Signup failed!");
+      }
+    }
+  </script>
+</body>
+</html>
